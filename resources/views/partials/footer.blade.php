@@ -21,9 +21,9 @@
         <div>
             <h3 class="font-bold text-lg mb-4">Hubungi Kami</h3>
             <ul class="space-y-2 text-blue-200 text-sm">
-                <li>Email: info@smpmuashidiq.sch.id</li>
-                <li>Telp: (021) xxxx-xxxx</li>
-                <li>Alamat: Jl. Pendidikan No. 1, Kota ...</li>
+                <li>Email: smpmuashidiq@gmail.com</li>
+                <li>Telp: 0857-4317-0153</li>
+                <li>Alamat: Purworejo, Rt 03/02, Jurangjero, Ngawen Gunungkidul</li>
             </ul>
         </div>
     </div>
