@@ -2,11 +2,11 @@
     <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12">
         <div>
             <div class="flex items-center gap-3 mb-4">
-                <img src="{{ asset('assets/logo smp.png') }}" alt="Logo" class="w-12 h-12 brightness-200">
-                <span class="font-bold text-xl uppercase">SMP Muhammadiyah Unggulan Ashidiq</span>
+                <img src="{{ asset('assets/logo smp.png') }}" alt="Logo" class="w-12 h-12">
+                <span class="font-bold text-xl uppercase leading-tight">SMP MUHAMMADIYAH<br><span class="text-sm font-normal text-blue-300">UNGGULAN ASHIDIQ</span></span>
             </div>
-            <p class="text-blue-200 text-sm leading-relaxed">
-                Mencetak generasi unggul berakhlak mulia, cerdas, dan berwawasan global.
+            <p class="text-blue-100 text-sm leading-relaxed italic">
+                "Sekolah Berkemajuan, Mandiri, Berprestasi, Berjiwa Qur'ani"
             </p>
         </div>
         <div>
