@@ -24,6 +24,7 @@
             <a href="{{ route('admin.articles.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.articles.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Artikel</a>
             <a href="{{ route('admin.gallery.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.gallery.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Galeri</a>
             <a href="{{ route('admin.documents.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.documents.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Dokumen</a>
+            <a href="{{ route('admin.alumni.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.alumni.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Alumni</a>
         </div>
 
         @yield('content')

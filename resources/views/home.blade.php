@@ -109,6 +109,38 @@
     </div>
 </section>
 
+@if(isset($alumni) && $alumni->count())
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-12">
+            <div>
+                <p class="text-blue-600 font-semibold uppercase tracking-widest text-sm mb-4">Alumni Terpilih</p>
+                <h2 class="text-4xl font-black text-blue-900">Cerita dan Prestasi Alumni</h2>
+            </div>
+            <a href="{{ route('alumni.create') }}" class="inline-flex items-center gap-2 border-2 border-blue-900 text-blue-900 px-6 py-3 font-bold rounded-full hover:bg-blue-900 hover:text-white transition text-sm">
+                Isi Pendataan Alumni
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            @foreach($alumni as $alumnus)
+            <div class="bg-gray-50 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+                <div class="h-72 overflow-hidden">
+                    <img src="{{ asset($alumnus->photo) }}" alt="Foto {{ $alumnus->name }}" class="w-full h-full object-cover">
+                </div>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-2">{{ $alumnus->name }}</h3>
+                    <p class="text-sm text-gray-500 uppercase tracking-widest mb-4">{{ $alumnus->class_level }} • {{ $alumnus->current_school }}</p>
+                    <p class="text-gray-600 leading-relaxed mb-4">{{ Str::limit($alumnus->message, 140) }}</p>
+                    <p class="text-sm text-gray-500"><span class="font-semibold">Kesan:</span> {{ Str::limit($alumnus->message, 80) }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
 <!-- Keunggulan Section -->
 <section class="py-24 bg-gray-50">
     <div class="container mx-auto px-4">

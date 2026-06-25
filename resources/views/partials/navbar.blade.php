@@ -15,6 +15,7 @@
             <a href="{{ route('artikel.index') }}" class="hover:text-blue-600 transition relative group">ARTIKEL</a>
             <a href="{{ route('galeri.index') }}" class="hover:text-blue-600 transition relative group">GALERI</a>
             <a href="{{ route('dokumentasi.index') }}" class="hover:text-blue-600 transition relative group">DOKUMENTASI</a>
+            <a href="{{ route('alumni.create') }}" class="hover:text-blue-600 transition relative group">ALUMNI</a>
             <a href="https://ponpesashiddiq.or.id" target="_blank" class="bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition font-bold text-sm">
                 PSB
             </a>
@@ -33,6 +34,7 @@
             <a href="{{ route('artikel.index') }}" @click="open = false" class="hover:text-blue-600 border-b pb-4">ARTIKEL</a>
             <a href="{{ route('galeri.index') }}" @click="open = false" class="hover:text-blue-600 border-b pb-4">GALERI</a>
             <a href="{{ route('dokumentasi.index') }}" @click="open = false" class="hover:text-blue-600 border-b pb-4">DOKUMENTASI</a>
+            <a href="{{ route('alumni.create') }}" @click="open = false" class="hover:text-blue-600 border-b pb-4">ALUMNI</a>
             <a href="https://ponpesashiddiq.or.id" target="_blank" class="bg-blue-600 text-white px-6 py-3 rounded-full text-center">PSB</a>
         </div>
     </div>
