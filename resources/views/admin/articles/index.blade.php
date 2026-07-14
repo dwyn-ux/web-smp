@@ -8,6 +8,12 @@
     </a>
 </div>
 
+@if(session('success'))
+    <div class="mb-6 rounded-2xl bg-green-50 border border-green-200 p-5 text-green-700">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
     <table class="w-full">
         <thead class="bg-gray-50 border-b">
@@ -23,6 +29,7 @@
                 <td class="p-6 font-semibold">{{ $article->title }}</td>
                 <td class="p-6 text-gray-500">{{ $article->created_at->format('d/m/Y') }}</td>
                 <td class="p-6 flex gap-3">
+                    <a href="{{ route('admin.articles.edit', $article->id) }}" class="text-blue-600 hover:text-blue-800 font-bold">Edit</a>
                     <form action="{{ route('admin.articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini?')">
                         @csrf @method('DELETE')
                         <button type="submit" class="text-red-600 hover:text-red-800 font-bold">Hapus</button>

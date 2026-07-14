@@ -35,4 +35,18 @@ return [
         ],
     ],
 
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+        'base_uri' => env('OPENAI_API_BASE_URI', 'https://api.openai.com'),
+    ],
+
+    'deepseek' => [
+        'key' => env('DEEPSEEK_API_KEY'),
+        'base_uri' => env('DEEPSEEK_API_BASE_URI', 'https://api.deepseek.com'),
+    ],
+
+    'gemini' => [
+        'key' => env('GEMINI_API_KEY'),
+        'base_uri' => env('GEMINI_API_BASE_URI', 'https://generativelanguage.googleapis.com'),
+    ],
 ];

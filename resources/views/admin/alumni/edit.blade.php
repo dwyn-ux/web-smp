@@ -35,13 +35,31 @@
         </div>
 
         <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Tahun Kelulusan SMP</label>
+            <select name="graduation_year" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none bg-white">
+                <option value="">Pilih Tahun Kelulusan</option>
+                @foreach($graduationYears as $year)
+                    <option value="{{ $year->year }}" {{ (string) old('graduation_year', $alumnus->graduation_year) === (string) $year->year ? 'selected' : '' }}>{{ $year->year }}</option>
+                @endforeach
+                @if($alumnus->graduation_year && ! $graduationYears->contains('year', $alumnus->graduation_year))
+                    <option value="{{ $alumnus->graduation_year }}" selected>{{ $alumnus->graduation_year }}</option>
+                @endif
+            </select>
+        </div>
+
+        <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat</label>
             <textarea name="address" rows="3" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none">{{ old('address', $alumnus->address) }}</textarea>
         </div>
 
         <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Sekarang Sekolah di Mana</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Sekolah Saat Ini (SMA/SMK/MA)</label>
             <input type="text" name="current_school" value="{{ old('current_school', $alumnus->current_school) }}" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Universitas Saat Ini <span class="text-gray-400 font-normal">(Opsional)</span></label>
+            <input type="text" name="current_university" value="{{ old('current_university', $alumnus->current_university) }}" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none">
         </div>
 
         <div>
@@ -63,10 +81,15 @@
             </select>
         </div>
 
+        <div class="flex items-center gap-3">
+            <input type="checkbox" id="show_on_homepage" name="show_on_homepage" value="1" class="rounded text-blue-600 focus:ring-blue-500" {{ old('show_on_homepage', $alumnus->show_on_homepage) ? 'checked' : '' }}>
+            <label for="show_on_homepage" class="text-sm font-semibold text-gray-700">Tampilkan di landing page</label>
+        </div>
+
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Upload Foto Alumni</label>
             <input type="file" name="photo" accept="image/*" class="w-full rounded-3xl border border-gray-300 px-5 py-3 focus:border-blue-500 focus:ring-blue-100 outline-none">
-            <p class="mt-2 text-sm text-gray-500">Biarkan kosong jika tidak ingin mengubah foto.</p>
+            <p class="mt-2 text-sm text-gray-500">Biarkan kosong jika tidak ingin mengubah foto. Format JPG/PNG maksimal 5 MB.</p>
         </div>
 
         <button type="submit" class="w-full bg-blue-900 text-white rounded-3xl px-6 py-4 font-bold hover:bg-blue-800 transition">Simpan Perubahan</button>

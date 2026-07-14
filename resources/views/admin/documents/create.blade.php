@@ -13,12 +13,28 @@
                 <input type="text" name="title" required class="w-full border p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Contoh: Kalender Akademik 2026">
             </div>
             <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Kategori</label>
+                <select name="category" class="w-full border p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                    <option value="">-- Pilih Kategori --</option>
+                    <option value="akademik">Akademik</option>
+                    <option value="kesiswaan">Kesiswaan</option>
+                    <option value="kurikulum">Kurikulum</option>
+                    <option value="administrasi">Administrasi</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+            </div>
+            <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2">Tipe Dokumen</label>
                 <select name="type" class="w-full border p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white">
                     <option value="pdf">PDF</option>
                     <option value="doc">Word (DOC/DOCX)</option>
                     <option value="xls">Excel (XLS/XLSX)</option>
                 </select>
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Thumbnail / Gambar Sampul</label>
+                <input type="file" name="thumbnail" accept="image/*" class="w-full text-sm text-gray-500">
+                <p class="text-xs text-gray-400 mt-1">Opsional. Gambar tampilan untuk dokumen (JPG, PNG).</p>
             </div>
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2">Pilih File</label>

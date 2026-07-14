@@ -12,7 +12,7 @@
     @foreach($galleries as $item)
     <div class="bg-white rounded-3xl shadow-md overflow-hidden group border border-gray-100 p-2">
         <div class="relative h-40 mb-3 overflow-hidden rounded-2xl">
-            <img src="{{ asset($item->image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover">
+            <img src="{{ $item->image_url ?? asset('assets/logo smp.png') }}" alt="{{ $item->title }}" class="w-full h-full object-cover">
             <form action="{{ route('admin.gallery.destroy', $item->id) }}" method="POST" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
                 @csrf @method('DELETE')
                 <button type="submit" class="bg-red-600 text-white p-2 rounded-full shadow-lg" onclick="return confirm('Hapus foto ini?')">

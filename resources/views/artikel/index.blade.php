@@ -8,7 +8,7 @@
             @foreach($articles as $article)
             <a href="{{ route('artikel.show', $article->slug) }}" class="group">
                 <div class="relative h-64 mb-4 overflow-hidden rounded-xl">
-                    <img src="{{ asset($article->image ?? 'assets/logo smp.png') }}" alt="{{ $article->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <img src="{{ $article->image_url ?? asset('assets/logo smp.png') }}" alt="{{ $article->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 </div>
                 <h2 class="text-xl font-bold group-hover:text-blue-600 transition">{{ $article->title }}</h2>
                 <p class="text-gray-500 text-sm mt-2">{{ $article->created_at->format('d F Y') }}</p>

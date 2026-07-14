@@ -23,17 +23,21 @@ class GalleryAdminController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'image' => 'required|image'
+            'images' => 'required|array',
+            'images.*' => 'image|max:5120',
         ]);
 
-        $path = $request->file('image')->store('gallery', 'public');
+        foreach ($request->file('images') as $image) {
+            $path = $image->store('gallery', 'uploads');
 
-        Gallery::create([
-            'title' => $request->title,
-            'image' => '/storage/' . $path
-        ]);
+            Gallery::create([
+                'title' => $request->title,
+                'image' => $path,
+            ]);
+        }
 
-        return redirect()->route('admin.gallery.index');
+        $count = count($request->file('images'));
+        return redirect()->route('admin.gallery.index')->with('success', "$count foto berhasil diupload!");
     }
 
     public function destroy($id)

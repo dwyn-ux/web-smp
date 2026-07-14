@@ -35,7 +35,24 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Kelas Saat di SMP</label>
-                        <input type="text" name="class_level" value="{{ old('class_level') }}" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none" placeholder="Misal: 9A atau 8B">
+                        <select name="class_level" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none bg-white">
+                            <option value="">Pilih Kelas</option>
+                            <option value="9A" {{ old('class_level') == '9A' ? 'selected' : '' }}>9A</option>
+                            <option value="9B" {{ old('class_level') == '9B' ? 'selected' : '' }}>9B</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tahun Kelulusan SMP</label>
+                        <select name="graduation_year" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none bg-white" {{ $graduationYears->isEmpty() ? 'disabled' : '' }}>
+                            <option value="">{{ $graduationYears->isEmpty() ? 'Belum ada pilihan tahun kelulusan' : 'Pilih Tahun Kelulusan' }}</option>
+                            @foreach($graduationYears as $year)
+                                <option value="{{ $year->year }}" {{ (string) old('graduation_year') === (string) $year->year ? 'selected' : '' }}>{{ $year->year }}</option>
+                            @endforeach
+                        </select>
+                        @if($graduationYears->isEmpty())
+                            <p class="mt-2 text-sm text-red-500">Pilihan tahun kelulusan belum tersedia. Silakan hubungi admin sekolah.</p>
+                        @endif
                     </div>
 
                     <div>
@@ -44,8 +61,13 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Sekarang Sekolah di Mana</label>
-                        <input type="text" name="current_school" value="{{ old('current_school') }}" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none" placeholder="Nama sekolah atau perguruan tinggi saat ini">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Sekolah Saat Ini (SMA/SMK/MA)</label>
+                        <input type="text" name="current_school" value="{{ old('current_school') }}" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none" placeholder="Nama sekolah saat ini">
+                    </div>
+
+                    <div class="hidden">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Universitas Saat Ini <span class="text-gray-400 font-normal">(Opsional)</span></label>
+                        <input type="text" name="current_university" value="{{ old('current_university') }}" class="w-full rounded-3xl border border-gray-300 px-5 py-4 focus:border-blue-500 focus:ring-blue-100 outline-none" placeholder="Nama universitas jika sudah kuliah">
                     </div>
 
                     <div>
@@ -61,9 +83,10 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Upload Foto Terbaik dengan Almamater</label>
                         <input type="file" name="photo" accept="image/*" class="w-full rounded-3xl border border-gray-300 px-5 py-3 focus:border-blue-500 focus:ring-blue-100 outline-none">
+                        <p class="mt-2 text-sm text-gray-500">Unggah foto kualitas baik bersama almamater. Format JPG/PNG maksimal 5 MB.</p>
                     </div>
 
-                    <button type="submit" class="w-full bg-blue-900 text-white rounded-3xl px-6 py-4 font-bold hover:bg-blue-800 transition">Kirim Data Alumni</button>
+                    <button type="submit" class="w-full rounded-3xl px-6 py-4 font-bold transition {{ $graduationYears->isEmpty() ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-900 text-white hover:bg-blue-800' }}" {{ $graduationYears->isEmpty() ? 'disabled' : '' }}>Kirim Data Alumni</button>
                 </form>
             </div>
         </div>

@@ -16,7 +16,7 @@
                 <li><a href="{{ route('artikel.index') }}" class="hover:text-white transition">Berita & Artikel</a></li>
                 <li><a href="{{ route('galeri.index') }}" class="hover:text-white transition">Galeri Foto</a></li>
                 <li><a href="{{ route('dokumentasi.index') }}" class="hover:text-white transition">Dokumentasi</a></li>
-                <li><a href="{{ route('alumni.create') }}" class="hover:text-white transition">Pendataan Alumni</a></li>
+                <li><a href="{{ route('alumni.index') }}" class="hover:text-white transition">Alumni</a></li>
             </ul>
         </div>
         <div>

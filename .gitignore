@@ -1,4 +1,6 @@
 *.log
+*.zip
+logtail.txt
 .DS_Store
 .env
 .env.backup

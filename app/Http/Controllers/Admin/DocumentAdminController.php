@@ -24,18 +24,27 @@ class DocumentAdminController extends Controller
         $request->validate([
             'title' => 'required',
             'file' => 'required|file',
-            'type' => 'required'
+            'type' => 'required',
+            'category' => 'nullable|string|max:255',
+            'thumbnail' => 'nullable|image|max:2048',
         ]);
 
         $file = $request->file('file');
-        $path = $file->store('documents', 'public');
+        $path = $file->store('documents', 'uploads');
         $size = round($file->getSize() / 1024 / 1024, 2) . ' MB';
+
+        $thumbnailPath = null;
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('documents/thumbnails', 'uploads');
+        }
 
         Document::create([
             'title' => $request->title,
-            'file' => '/storage/' . $path,
+            'file' => $path,
             'type' => $request->type,
-            'size' => $size
+            'category' => $request->category,
+            'size' => $size,
+            'thumbnail' => $thumbnailPath,
         ]);
 
         return redirect()->route('admin.documents.index');

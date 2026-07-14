@@ -1,0 +1,13 @@
+| Nama File | Lokasi Tampil |
+| :--- | :--- |
+| logo smp.png | Navbar, Hero, Footer, halaman login, dan CTA pendaftaran |
+| kegiatan-1.jpg | Gambar beranda bagian "Selamat Datang", fasilitas laboratorium |
+| kegiatan-2.jpg | Gambar beranda bagian "Selamat Datang", fasilitas perpustakaan |
+| kegiatan-3.jpg | Gambar beranda bagian "Selamat Datang", fasilitas olahraga |
+| kegiatan-4.jpg | Gambar beranda bagian "Selamat Datang" |
+| program-tahfidz.jpg | Kartu program Tahfidz di section program unggulan |
+| program-akademik.jpg | Kartu program Akademik di section program unggulan |
+| program-ekskul.jpg | Kartu program Ekstrakurikuler di section program unggulan |
+| sekolah.jpg | Header halaman Profil |
+| tentang.jpg | Gambar "Tentang Kami" di halaman Profil |
+| alumni-upload.jpg | Placeholder contoh foto alumni dengan almamater untuk panduan upload di form alumni |

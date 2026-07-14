@@ -66,4 +66,26 @@
         </div>
     </div>
 </section>
+
+<!-- Map Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <p class="text-blue-600 font-semibold uppercase tracking-widest text-sm mb-4">Lokasi Kami</p>
+            <h2 class="text-4xl font-black text-blue-900">Kunjungi Sekolah Kami</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed mt-3">
+                Jl. Raya Brosot - Galur, Krang, Bapang, Brosot, Kulon Progo, Daerah Istimewa Yogyakarta
+            </p>
+        </div>
+        <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <iframe src="https://www.google.com/maps?q=-7.8237589,110.6330109&z=17&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="text-center mt-6">
+            <a href="https://www.google.com/maps?q=-7.8237589,110.6330109" target="_blank"
+                class="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition shadow-lg">
+                <i data-lucide="map-pin" class="w-5 h-5"></i> Buka di Google Maps
+            </a>
+        </div>
+    </div>
+</section>
 @endsection
