@@ -23,6 +23,7 @@
         <div class="flex gap-4 mb-8 border-b overflow-x-auto">
             <a href="{{ route('admin.articles.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.articles.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Artikel</a>
             <a href="{{ route('admin.gallery.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.gallery.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Galeri</a>
+            <a href="{{ route('admin.facilities.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.facilities.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Fasilitas</a>
             <a href="{{ route('admin.documents.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.documents.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Dokumen</a>
             <a href="{{ route('admin.alumni.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.alumni.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Alumni</a>
             <a href="{{ route('admin.settings.index') }}" class="pb-2 px-4 font-bold transition {{ request()->routeIs('admin.settings.*') ? 'border-b-4 border-blue-600 text-blue-600' : 'text-gray-500' }}">Pengaturan</a>

@@ -207,27 +207,19 @@
             <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">Ruang kelas modern, laboratorium lengkap, dan area ekspresi siswa yang mendukung proses belajar.</p>
         </div>
         <div class="grid gap-6 md:grid-cols-3">
+            @forelse($facilities as $facility)
             <div class="rounded-3xl overflow-hidden shadow-lg">
-                <img src="{{ asset($photos['kegiatan_1']) }}" alt="Fasilitas Laboratorium" class="h-72 w-full object-cover">
+                <img src="{{ $facility->image_url ?? asset('assets/logo smp.png') }}" alt="{{ $facility->title }}" class="h-72 w-full object-cover">
                 <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold text-blue-900 mb-2">Laboratorium Modern</h3>
-                    <p class="text-gray-600">Fasilitas yang lengkap untuk praktik sains dan teknologi.</p>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">{{ $facility->title }}</h3>
+                    <p class="text-gray-600">{{ $facility->description }}</p>
                 </div>
             </div>
-            <div class="rounded-3xl overflow-hidden shadow-lg">
-                <img src="{{ asset($photos['kegiatan_2']) }}" alt="Fasilitas Perpustakaan" class="h-72 w-full object-cover">
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold text-blue-900 mb-2">Perpustakaan Nyaman</h3>
-                    <p class="text-gray-600">Ruang belajar tenang dengan koleksi buku dan referensi lengkap.</p>
-                </div>
+            @empty
+            <div class="md:col-span-3 text-center py-16 text-gray-400">
+                <p>Belum ada data fasilitas.</p>
             </div>
-            <div class="rounded-3xl overflow-hidden shadow-lg">
-                <img src="{{ asset($photos['kegiatan_3']) }}" alt="Fasilitas Olahraga" class="h-72 w-full object-cover">
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold text-blue-900 mb-2">Lapangan & Ekstrakurikuler</h3>
-                    <p class="text-gray-600">Area olahraga dan kegiatan kreatif untuk siswa aktif.</p>
-                </div>
-            </div>
+            @endforelse
         </div>
     </div>
 </section>

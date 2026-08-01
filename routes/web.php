@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\GalleryAdminController;
 use App\Http\Controllers\Admin\DocumentAdminController;
 use App\Http\Controllers\Admin\AlumniAdminController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\FacilityAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -35,6 +36,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('articles/generate', [ArticleAdminController::class, 'generate'])->name('articles.generate');
     Route::resource('articles', ArticleAdminController::class);
     Route::resource('gallery', GalleryAdminController::class);
+    Route::resource('facilities', FacilityAdminController::class);
     Route::resource('documents', DocumentAdminController::class);
     Route::post('alumni/{alumnus}/approve', [AlumniAdminController::class, 'approve'])->name('alumni.approve');
     Route::post('alumni/{alumnus}/toggle-visibility', [AlumniAdminController::class, 'toggleVisibility'])->name('alumni.toggleVisibility');
