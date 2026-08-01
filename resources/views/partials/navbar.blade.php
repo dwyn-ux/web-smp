@@ -3,7 +3,7 @@
      class="fixed top-0 w-full z-50 transition-all duration-300">
     <div class="container mx-auto px-4 h-20 flex items-center justify-between">
         <a href="{{ route('home') }}" class="flex items-center gap-3">
-            <img src="{{ asset('assets/logo smp.png') }}" alt="Logo" class="w-12 h-12 object-contain">
+            <img src="{{ asset(\App\Models\Setting::get('site_logo', 'assets/logo smp.png')) }}" alt="Logo" class="w-12 h-12 object-contain">
             <span class="font-bold text-lg text-blue-900 hidden lg:block leading-tight uppercase">
                 SMP MUHAMMADIYAH<br><span class="text-xs text-blue-600">UNGGULAN ASHIDIQ</span>
             </span>

@@ -18,7 +18,7 @@
     </div>
 
     <div class="relative z-30 h-full flex flex-col items-center justify-center text-white px-4 text-center">
-        <img src="{{ asset('assets/logo smp.png') }}" alt="Logo" class="w-24 h-24 md:w-32 md:h-32 mb-6 drop-shadow-2xl">
+        <img src="{{ asset($photos['logo']) }}" alt="Logo" class="w-24 h-24 md:w-32 md:h-32 mb-6 drop-shadow-2xl">
         <h1 class="text-3xl md:text-6xl font-black mb-4 tracking-tight drop-shadow-lg uppercase px-2">
             SMP Muhammadiyah Unggulan Ashidiq
         </h1>
@@ -110,12 +110,12 @@
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div class="space-y-4">
-                    <img src="{{ asset('assets/kegiatan-1.jpg') }}" alt="Kegiatan" class="h-48 w-full object-cover rounded-2xl shadow-lg">
-                    <img src="{{ asset('assets/kegiatan-2.jpg') }}" alt="Kegiatan" class="h-64 w-full object-cover rounded-2xl shadow-lg">
+                    <img src="{{ asset($photos['kegiatan_1']) }}" alt="Kegiatan" class="h-48 w-full object-cover rounded-2xl shadow-lg">
+                    <img src="{{ asset($photos['kegiatan_2']) }}" alt="Kegiatan" class="h-64 w-full object-cover rounded-2xl shadow-lg">
                 </div>
                 <div class="space-y-4 mt-8">
-                    <img src="{{ asset('assets/kegiatan-3.jpg') }}" alt="Kegiatan" class="h-64 w-full object-cover rounded-2xl shadow-lg">
-                    <img src="{{ asset('assets/kegiatan-4.jpg') }}" alt="Kegiatan" class="h-48 w-full object-cover rounded-2xl shadow-lg">
+                    <img src="{{ asset($photos['kegiatan_3']) }}" alt="Kegiatan" class="h-64 w-full object-cover rounded-2xl shadow-lg">
+                    <img src="{{ asset($photos['kegiatan_4']) }}" alt="Kegiatan" class="h-48 w-full object-cover rounded-2xl shadow-lg">
                 </div>
             </div>
         </div>
@@ -208,21 +208,21 @@
         </div>
         <div class="grid gap-6 md:grid-cols-3">
             <div class="rounded-3xl overflow-hidden shadow-lg">
-                <img src="{{ asset('assets/kegiatan-1.jpg') }}" alt="Fasilitas Laboratorium" class="h-72 w-full object-cover">
+                <img src="{{ asset($photos['kegiatan_1']) }}" alt="Fasilitas Laboratorium" class="h-72 w-full object-cover">
                 <div class="p-6 bg-white">
                     <h3 class="text-xl font-bold text-blue-900 mb-2">Laboratorium Modern</h3>
                     <p class="text-gray-600">Fasilitas yang lengkap untuk praktik sains dan teknologi.</p>
                 </div>
             </div>
             <div class="rounded-3xl overflow-hidden shadow-lg">
-                <img src="{{ asset('assets/kegiatan-2.jpg') }}" alt="Fasilitas Perpustakaan" class="h-72 w-full object-cover">
+                <img src="{{ asset($photos['kegiatan_2']) }}" alt="Fasilitas Perpustakaan" class="h-72 w-full object-cover">
                 <div class="p-6 bg-white">
                     <h3 class="text-xl font-bold text-blue-900 mb-2">Perpustakaan Nyaman</h3>
                     <p class="text-gray-600">Ruang belajar tenang dengan koleksi buku dan referensi lengkap.</p>
                 </div>
             </div>
             <div class="rounded-3xl overflow-hidden shadow-lg">
-                <img src="{{ asset('assets/kegiatan-3.jpg') }}" alt="Fasilitas Olahraga" class="h-72 w-full object-cover">
+                <img src="{{ asset($photos['kegiatan_3']) }}" alt="Fasilitas Olahraga" class="h-72 w-full object-cover">
                 <div class="p-6 bg-white">
                     <h3 class="text-xl font-bold text-blue-900 mb-2">Lapangan & Ekstrakurikuler</h3>
                     <p class="text-gray-600">Area olahraga dan kegiatan kreatif untuk siswa aktif.</p>
@@ -280,9 +280,9 @@
         <div class="grid md:grid-cols-3 gap-8">
             @php
                 $programs = [
-                    ['title' => 'Tahfidz Al-Quran', 'desc' => 'Program hafalan Al-Quran dengan metode terstruktur dan bimbingan berpengalaman.', 'img' => 'assets/program-tahfidz.jpg'],
-                    ['title' => 'Akademik Unggul', 'desc' => 'Kurikulum nasional diperkaya muatan Islami mencetak generasi cerdas beriman.', 'img' => 'assets/program-akademik.jpg'],
-                    ['title' => 'Ekstrakurikuler', 'desc' => 'Beragam kegiatan dari olahraga hingga teknologi untuk mengembangkan bakat.', 'img' => 'assets/program-ekskul.jpg'],
+                    ['title' => 'Tahfidz Al-Quran', 'desc' => 'Program hafalan Al-Quran dengan metode terstruktur dan bimbingan berpengalaman.', 'img' => $photos['program_tahfidz']],
+                    ['title' => 'Akademik Unggul', 'desc' => 'Kurikulum nasional diperkaya muatan Islami mencetak generasi cerdas beriman.', 'img' => $photos['program_akademik']],
+                    ['title' => 'Ekstrakurikuler', 'desc' => 'Beragam kegiatan dari olahraga hingga teknologi untuk mengembangkan bakat.', 'img' => $photos['program_ekskul']],
                 ];
             @endphp
             @foreach($programs as $p)
@@ -359,7 +359,7 @@
 <!-- CTA Section -->
 <section class="py-24 bg-gradient-to-br from-blue-600 to-blue-800 text-white relative overflow-hidden">
     <div class="absolute inset-0 opacity-10">
-        <img src="{{ asset('assets/logo smp.png') }}" alt="bg" class="w-full h-full object-contain scale-150 rotate-12">
+        <img src="{{ asset($photos['logo']) }}" alt="bg" class="w-full h-full object-contain scale-150 rotate-12">
     </div>
     <div class="container mx-auto px-4 text-center relative z-10">
         <h2 class="text-4xl md:text-5xl font-black mb-6">Siap Bergabung?</h2>

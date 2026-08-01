@@ -8,7 +8,7 @@
             <p class="text-blue-200">Atur lokasi sekolah untuk ditampilkan di Google Maps.</p>
         </div>
 
-        <form action="{{ route('admin.settings.update') }}" method="POST" class="p-8 space-y-8">
+        <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-8">
             @csrf
 
             @if(session('success'))
@@ -45,6 +45,25 @@
                 <label class="block text-sm font-bold text-gray-700 mb-2">Pratinjau Lokasi</label>
                 <div id="map-preview" class="w-full h-64 rounded-2xl border border-gray-200 bg-gray-100"></div>
                 <p class="text-xs text-gray-400 mt-1">Geser pin untuk menyesuaikan lokasi.</p>
+            </div>
+
+            <!-- Foto Website -->
+            <div class="border-t border-gray-100 pt-8">
+                <h2 class="text-lg font-bold text-gray-800 mb-1">Foto Website</h2>
+                <p class="text-sm text-gray-400 mb-6">Upload foto yang tampil di halaman Beranda dan Profil. Kosongkan jika tidak ingin mengganti.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    @foreach($imageSettings as $img)
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ $img['label'] }}</label>
+                        <div class="flex items-center gap-4">
+                            <img src="{{ asset(\App\Models\Setting::get($img['key'], $img['default'])) }}" alt="{{ $img['label'] }}"
+                                class="w-20 h-20 object-cover rounded-xl border border-gray-200 bg-gray-100 shrink-0">
+                            <input type="file" name="{{ $img['key'] }}" accept="image/*"
+                                class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white text-gray-900">
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
 
             <button type="submit"

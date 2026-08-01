@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="relative h-[50vh] overflow-hidden">
-    <img src="{{ asset('assets/sekolah.jpg') }}" alt="Gedung Sekolah" class="w-full h-full object-cover">
+    <img src="{{ asset($photos['hero']) }}" alt="Gedung Sekolah" class="w-full h-full object-cover">
     <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-black/30"></div>
     <div class="relative z-10 h-full flex items-end pb-16">
         <div class="container mx-auto px-4">
@@ -24,7 +24,7 @@
             </p>
         </div>
         <div class="relative h-80 rounded-2xl overflow-hidden shadow-xl">
-            <img src="{{ asset('assets/tentang.jpg') }}" alt="Tentang SMP" class="w-full h-full object-cover">
+            <img src="{{ asset($photos['tentang']) }}" alt="Tentang SMP" class="w-full h-full object-cover">
         </div>
     </div>
 </section>

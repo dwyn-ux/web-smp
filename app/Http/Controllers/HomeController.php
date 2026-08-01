@@ -16,11 +16,27 @@ class HomeController extends Controller
         $longitude = Setting::get('site_longitude', '110.6330109');
         $address = Setting::get('site_address', 'SMP Muhammadiyah Unggulan Ashidiq');
 
-        return view('home', compact('articles', 'alumni', 'latitude', 'longitude', 'address'));
+        $photos = [
+            'logo' => Setting::get('site_logo', 'assets/logo smp.png'),
+            'kegiatan_1' => Setting::get('site_kegiatan_1', 'assets/kegiatan-1.jpg'),
+            'kegiatan_2' => Setting::get('site_kegiatan_2', 'assets/kegiatan-2.jpg'),
+            'kegiatan_3' => Setting::get('site_kegiatan_3', 'assets/kegiatan-3.jpg'),
+            'kegiatan_4' => Setting::get('site_kegiatan_4', 'assets/kegiatan-4.jpg'),
+            'program_tahfidz' => Setting::get('site_program_tahfidz', 'assets/program-tahfidz.jpg'),
+            'program_akademik' => Setting::get('site_program_akademik', 'assets/program-akademik.jpg'),
+            'program_ekskul' => Setting::get('site_program_ekskul', 'assets/program-ekskul.jpg'),
+        ];
+
+        return view('home', compact('articles', 'alumni', 'latitude', 'longitude', 'address', 'photos'));
     }
 
     public function profile()
     {
-        return view('profil');
+        $photos = [
+            'hero' => Setting::get('site_profil_hero', 'assets/sekolah.jpg'),
+            'tentang' => Setting::get('site_profil_tentang', 'assets/tentang.jpg'),
+        ];
+
+        return view('profil', compact('photos'));
     }
 }
