@@ -17,7 +17,7 @@ class GalleryController extends Controller
         // memang disimpan sebagai baris terpisah dengan judul yang sama.
         $albumCollection = Gallery::latest()
             ->get()
-            ->groupBy(fn (Gallery $gallery) => mb_strtolower(trim($gallery->title)))
+            ->groupBy(fn (Gallery $gallery) => strtolower(trim($gallery->title)))
             ->map(function ($photos) {
                 $cover = $photos->first();
 
