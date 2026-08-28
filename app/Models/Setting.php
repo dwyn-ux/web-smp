@@ -11,15 +11,23 @@ class Setting extends Model
 
     public static function get(string $key, string $default = null): ?string
     {
-        return Cache::rememberForever("setting.{$key}", function () use ($key, $default) {
-            return static::where('key', $key)->value('value') ?? $default;
-        });
+        try {
+            return Cache::rememberForever("setting.{$key}", function () use ($key, $default) {
+                return static::where('key', $key)->value('value') ?? $default;
+            });
+        } catch (\Throwable) {
+            return $default;
+        }
     }
 
     public static function set(string $key, ?string $value): void
     {
-        static::updateOrCreate(['key' => $key], ['value' => $value]);
-        Cache::forget("setting.{$key}");
+        try {
+            static::updateOrCreate(['key' => $key], ['value' => $value]);
+            Cache::forget("setting.{$key}");
+        } catch (\Throwable) {
+            // Table may not exist yet; silently ignore.
+        }
     }
 
     protected static function booted(): void

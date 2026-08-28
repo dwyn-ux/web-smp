@@ -15,5 +15,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@smp.com',
             'password' => Hash::make('admin123'),
         ]);
+
+        $this->call([
+            SettingsSeeder::class,
+        ]);
     }
 }
