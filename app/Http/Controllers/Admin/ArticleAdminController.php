@@ -65,36 +65,43 @@ class ArticleAdminController extends Controller
     {
         $request->validate([
             'prompt' => 'required|string|min:10',
-            'provider' => 'nullable|string|in:openai,deepseek,gemini,custom',
+            'provider' => 'nullable|string|in:openai,deepseek,gemini,openrouter,custom',
             'endpoint' => 'nullable|string|url',
             'api_key' => 'nullable|string',
             'model' => 'nullable|string',
         ]);
 
         $provider = $request->input('provider', 'openai');
+        $apiError = null;
 
         $prompt = trim($request->prompt);
         $systemPrompt = 'Kamu adalah penulis artikel profesional berbahasa Indonesia untuk website sekolah. Gayamu natural, hangat, dan mudah dipahami — seperti tulisan manusia, bukan robot. Kamu tidak pernah menggunakan markdown (tanpa ##, **, -, atau simbol lainnya). Setiap paragraf dipisahkan oleh satu baris kosong (ENTER), bukan pakai poin atau bullet. Judul dan isi dipisahkan dengan jelas. Di akhir artikel, selalu sertakan 3–5 tag keyword yang relevan, dipisahkan koma. Artikel yang kamu tulis SEO-friendly dan enak dibaca. Kamu TIDAK PERNAH membalas dengan kalimat pembuka seperti "Tentu, berikut artikelnya" atau sejenisnya — langsung tulis artikel saja.';
         $userPrompt = "Tulis artikel dalam bahasa Indonesia tentang topik ini: \"{$prompt}\".\n\nAturan WAJIB:\n- JANGAN gunakan markdown apapun (tidak ada ##, **, *, -, atau simbol format)\n- JANGAN mulai dengan kalimat pembuka seperti \"Tentu, berikut artikel...\" atau \"Berikut adalah artikel...\" — LANGSUNG tulis judul artikel di baris pertama\n- Judul artikel di baris pertama, tanpa tanda baca apapun di awal\n- Kosongkan satu baris setelah judul, lalu tulis isi artikel\n- Setiap paragraf dipisahkan satu baris kosong (ENTER)\n- Gaya bahasa natural seperti tulisan manusia, bukan AI\n- Akhiri dengan baris kosong lalu tulis \"Tags: tag1, tag2, tag3\" (3-5 tag yang benar-benar mencerminkan isi artikel, bukan tag generik seperti SEO)\n- Target panjang: 600–900 kata";
 
         $content = match ($provider) {
-            'deepseek' => $this->callDeepSeek($systemPrompt, $userPrompt),
-            'gemini' => $this->callGemini($systemPrompt, $userPrompt),
-            'custom' => $this->callCustom($systemPrompt, $userPrompt, $request),
-            default => $this->callOpenAI($systemPrompt, $userPrompt),
+            'deepseek' => $this->callDeepSeek($systemPrompt, $userPrompt, $apiError),
+            'gemini' => $this->callGemini($systemPrompt, $userPrompt, $apiError),
+            'openrouter' => $this->callOpenRouter($systemPrompt, $userPrompt, $apiError),
+            'custom' => $this->callCustom($systemPrompt, $userPrompt, $request, $apiError),
+            default => $this->callOpenAI($systemPrompt, $userPrompt, $apiError),
         };
 
         if ($content === null) {
-            return response()->json(['error' => 'Gagal menghasilkan konten.'], 500);
+            $errorMsg = 'Gagal menghasilkan konten.';
+            if ($apiError) {
+                $errorMsg .= ' Detail: ' . $apiError;
+            }
+            return response()->json(['error' => $errorMsg], 500);
         }
 
         return response()->json(['content' => $content]);
     }
 
-    private function callOpenAI(string $system, string $user): ?string
+    private function callOpenAI(string $system, string $user, ?string &$apiError = null): ?string
     {
         $apiKey = config('services.openai.key');
         if (! $apiKey) {
+            $apiError = 'OPENAI_API_KEY belum dikonfigurasi di .env';
             return null;
         }
 
@@ -111,16 +118,18 @@ class ArticleAdminController extends Controller
             ]);
 
         if ($response->failed()) {
+            $apiError = 'OpenAI API error: ' . ($response->json('error.message') ?? 'HTTP ' . $response->status());
             return null;
         }
 
         return data_get($response->json(), 'choices.0.message.content');
     }
 
-    private function callDeepSeek(string $system, string $user): ?string
+    private function callDeepSeek(string $system, string $user, ?string &$apiError = null): ?string
     {
         $apiKey = config('services.deepseek.key');
         if (! $apiKey) {
+            $apiError = 'DEEPSEEK_API_KEY belum dikonfigurasi di .env';
             return null;
         }
 
@@ -137,16 +146,18 @@ class ArticleAdminController extends Controller
             ]);
 
         if ($response->failed()) {
+            $apiError = 'DeepSeek API error: ' . ($response->json('error.message') ?? 'HTTP ' . $response->status());
             return null;
         }
 
         return data_get($response->json(), 'choices.0.message.content');
     }
 
-    private function callGemini(string $system, string $user): ?string
+    private function callGemini(string $system, string $user, ?string &$apiError = null): ?string
     {
         $apiKey = config('services.gemini.key');
         if (! $apiKey) {
+            $apiError = 'GEMINI_API_KEY belum dikonfigurasi di .env';
             return null;
         }
 
@@ -167,19 +178,51 @@ class ArticleAdminController extends Controller
             ]);
 
         if ($response->failed()) {
+            $apiError = 'Gemini API error: ' . ($response->json('error.message') ?? 'HTTP ' . $response->status());
             return null;
         }
 
         return data_get($response->json(), 'candidates.0.content.parts.0.text');
     }
 
-    private function callCustom(string $system, string $user, Request $request): ?string
+    private function callOpenRouter(string $system, string $user, ?string &$apiError = null): ?string
+    {
+        $apiKey = config('services.openrouter.key');
+        if (! $apiKey) {
+            $apiError = 'OPENROUTER_API_KEY belum dikonfigurasi di .env';
+            return null;
+        }
+
+        $model = config('services.openrouter.model', 'google/gemini-2.5-flash:free');
+
+        $response = Http::withToken($apiKey)
+            ->timeout(60)
+            ->post(config('services.openrouter.base_uri') . '/v1/chat/completions', [
+                'model' => $model,
+                'messages' => [
+                    ['role' => 'system', 'content' => $system],
+                    ['role' => 'user', 'content' => $user],
+                ],
+                'temperature' => 0.7,
+                'max_tokens' => 1500,
+            ]);
+
+        if ($response->failed()) {
+            $apiError = 'OpenRouter API error: ' . ($response->json('error.message') ?? 'HTTP ' . $response->status());
+            return null;
+        }
+
+        return data_get($response->json(), 'choices.0.message.content');
+    }
+
+    private function callCustom(string $system, string $user, Request $request, ?string &$apiError = null): ?string
     {
         $endpoint = $request->input('endpoint');
         $apiKey = $request->input('api_key');
         $model = $request->input('model', 'gpt-4o-mini');
 
         if (! $endpoint) {
+            $apiError = 'Endpoint URL wajib diisi untuk Custom Endpoint.';
             return null;
         }
 
@@ -200,10 +243,16 @@ class ArticleAdminController extends Controller
         ]);
 
         if ($response->failed()) {
+            $apiError = 'Custom endpoint error: ' . ($response->json('error.message') ?? 'HTTP ' . $response->status());
             return null;
         }
 
-        return data_get($response->json(), 'choices.0.message.content');
+        // Support multiple response formats
+        $json = $response->json();
+        return data_get($json, 'choices.0.message.content')
+            ?? data_get($json, 'candidates.0.content.parts.0.text')
+            ?? data_get($json, 'data.choices.0.message.content')
+            ?? null;
     }
 
     public function edit($id)

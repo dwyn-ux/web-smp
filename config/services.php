@@ -49,4 +49,10 @@ return [
         'key' => env('GEMINI_API_KEY'),
         'base_uri' => env('GEMINI_API_BASE_URI', 'https://generativelanguage.googleapis.com'),
     ],
+
+    'openrouter' => [
+        'key' => env('OPENROUTER_API_KEY'),
+        'base_uri' => env('OPENROUTER_API_BASE_URI', 'https://openrouter.ai/api'),
+        'model' => env('OPENROUTER_MODEL', 'google/gemini-2.5-flash:free'),
+    ],
 ];

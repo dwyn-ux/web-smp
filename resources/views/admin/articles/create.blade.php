@@ -86,6 +86,7 @@
                             <option value="openai">🤖 OpenAI (GPT-4o mini)</option>
                             <option value="deepseek">🧠 DeepSeek (deepseek-chat)</option>
                             <option value="gemini">✨ Google Gemini (2.0 Flash)</option>
+                            <option value="openrouter">🌐 OpenRouter (Gemini 2.5 Flash Free)</option>
                             <option value="custom">⚙️ Custom Endpoint</option>
                         </select>
                         <div id="custom-endpoint-wrap" class="hidden mb-3 space-y-2">
