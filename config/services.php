@@ -53,6 +53,7 @@ return [
     'openrouter' => [
         'key' => env('OPENROUTER_API_KEY'),
         'base_uri' => env('OPENROUTER_API_BASE_URI', 'https://openrouter.ai/api'),
+        // ⚠️ Di .env, model ID harus pakai kutip: OPENROUTER_MODEL="model-id:free"
         'model' => env('OPENROUTER_MODEL', 'nvidia/nemotron-3-super-120b-a12b:free'),
     ],
 ];
