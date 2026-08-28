@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Alumni;
 use App\Models\Facility;
 use App\Models\Setting;
+use Illuminate\Support\Collection;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,12 @@ class HomeController extends Controller
     {
         $articles = Article::where('published', true)->latest()->take(3)->get();
         $alumni = Alumni::approved()->where('show_on_homepage', true)->latest()->take(6)->get();
-        $facilities = Facility::orderBy('sort_order')->get();
+
+        try {
+            $facilities = Facility::orderBy('sort_order')->get();
+        } catch (\Throwable) {
+            $facilities = new Collection();
+        }
         $latitude = Setting::get('site_latitude', '-7.8237589');
         $longitude = Setting::get('site_longitude', '110.6330109');
         $address = Setting::get('site_address', 'SMP Muhammadiyah Unggulan Ashidiq');
