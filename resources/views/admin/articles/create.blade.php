@@ -168,8 +168,18 @@
                 return;
             }
 
+            if (data.title) {
+                const titleInput = document.querySelector('input[name="title"]');
+                if (titleInput && !titleInput.value) titleInput.value = data.title;
+            }
+
+            if (data.tags) {
+                const tagsInput = document.querySelector('input[name="tags"]');
+                if (tagsInput && !tagsInput.value) tagsInput.value = data.tags;
+            }
+
             if (editorInstance) {
-                editorInstance.setData(data.content);
+                editorInstance.setData(data.content || '');
             }
         })
         .catch(() => {

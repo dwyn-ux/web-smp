@@ -75,7 +75,7 @@ class ArticleAdminController extends Controller
         $apiError = null;
 
         $prompt = trim($request->prompt);
-        $systemPrompt = 'Kamu adalah penulis artikel profesional berbahasa Indonesia untuk website sekolah. Gayamu natural, hangat, dan mudah dipahami — seperti tulisan manusia, bukan robot. Kamu tidak pernah menggunakan markdown (tanpa ##, **, -, atau simbol lainnya). Setiap paragraf dipisahkan oleh satu baris kosong (ENTER), bukan pakai poin atau bullet. Judul dan isi dipisahkan dengan jelas. Di akhir artikel, selalu sertakan 3–5 tag keyword yang relevan, dipisahkan koma. Artikel yang kamu tulis SEO-friendly dan enak dibaca. Kamu TIDAK PERNAH membalas dengan kalimat pembuka seperti "Tentu, berikut artikelnya" atau sejenisnya — langsung tulis artikel saja.';
+        $systemPrompt = 'Kamu adalah penulis artikel profesional berbahasa Indonesia untuk website sekolah. Gayamu natural, hangat, dan mudah dipahami — seperti tulisan manusia, bukan robot. Kamu tidak pernah menggunakan markdown (tanpa ##, **, -, atau simbol lainnya). Setiap paragraf dipisahkan oleh satu baris kosong (ENTER), bukan pakai poin atau bullet. Judul dan isi dipisahkan dengan jelas. Di akhir artikel, selalu sertakan 3–5 tag keyword yang relevan, dipisahkan koma. Artikel yang kamu tulis SEO-friendly dan enak dibaca. Kamu TIDAK PERNAH membalas dengan kalimat pembuka seperti "Tentu, berikut artikelnya" atau sejenisnya — langsung tulis artikel saja. JANGAN pernah menampilkan proses berpikir, planning, atau catatan internal. Output HANYA artikel final.';
         $userPrompt = "Tulis artikel dalam bahasa Indonesia tentang topik ini: \"{$prompt}\".\n\nAturan WAJIB:\n- JANGAN gunakan markdown apapun (tidak ada ##, **, *, -, atau simbol format)\n- JANGAN mulai dengan kalimat pembuka seperti \"Tentu, berikut artikel...\" atau \"Berikut adalah artikel...\" — LANGSUNG tulis judul artikel di baris pertama\n- Judul artikel di baris pertama, tanpa tanda baca apapun di awal\n- Kosongkan satu baris setelah judul, lalu tulis isi artikel\n- Setiap paragraf dipisahkan satu baris kosong (ENTER)\n- Gaya bahasa natural seperti tulisan manusia, bukan AI\n- Akhiri dengan baris kosong lalu tulis \"Tags: tag1, tag2, tag3\" (3-5 tag yang benar-benar mencerminkan isi artikel, bukan tag generik seperti SEO)\n- Target panjang: 600–900 kata";
 
         $content = match ($provider) {
@@ -94,7 +94,30 @@ class ArticleAdminController extends Controller
             return response()->json(['error' => $errorMsg], 500);
         }
 
-        return response()->json(['content' => $content]);
+        [$title, $body, $tags] = $this->splitArticle($content);
+
+        return response()->json([
+            'title' => $title,
+            'content' => $body,
+            'tags' => $tags,
+        ]);
+    }
+
+    private function splitArticle(string $raw): array
+    {
+        $text = trim($raw);
+        $tags = '';
+
+        if (preg_match('/\n\s*Tags?\s*:\s*(.+?)\s*$/is', $text, $m)) {
+            $tags = trim($m[1]);
+            $text = trim(preg_replace('/\n\s*Tags?\s*:.*$/is', '', $text));
+        }
+
+        $lines = preg_split('/\r\n|\r|\n/', $text);
+        $title = trim($lines[0] ?? '');
+        $body = trim(implode("\n", array_slice($lines, 1)));
+
+        return [$title, $body, $tags];
     }
 
     private function callOpenAI(string $system, string $user, ?string &$apiError = null): ?string
@@ -197,6 +220,7 @@ class ArticleAdminController extends Controller
 
         $response = Http::withToken($apiKey)
             ->timeout(60)
+            ->withOptions(['verify' => false])
             ->post(config('services.openrouter.base_uri') . '/v1/chat/completions', [
                 'model' => $model,
                 'messages' => [
@@ -204,7 +228,7 @@ class ArticleAdminController extends Controller
                     ['role' => 'user', 'content' => $user],
                 ],
                 'temperature' => 0.7,
-                'max_tokens' => 1500,
+                'max_tokens' => 2000,
             ]);
 
         if ($response->failed()) {
@@ -212,7 +236,13 @@ class ArticleAdminController extends Controller
             return null;
         }
 
-        return data_get($response->json(), 'choices.0.message.content');
+        $content = data_get($response->json(), 'choices.0.message.content');
+        if (! $content) {
+            $apiError = 'OpenRouter mengembalikan konten kosong. Model: ' . $model . '. Respons: ' . substr($response->body(), 0, 300);
+            return null;
+        }
+
+        return $content;
     }
 
     private function callCustom(string $system, string $user, Request $request, ?string &$apiError = null): ?string

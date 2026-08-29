@@ -3,11 +3,9 @@
 @section('content')
 <!-- Hero Section -->
 <section class="relative h-screen w-full overflow-hidden bg-blue-950">
-    <!-- Video Overlay for Cinematic Feel -->
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-20"></div>
     <div class="absolute inset-0 z-10 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none"></div>
 
-    <!-- YouTube Video Background -->
     <div class="absolute inset-0 w-full h-full">
         <iframe 
             class="absolute inset-0 w-[100vw] h-[56.25vw] min-h-screen min-w-[177.77vh] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
