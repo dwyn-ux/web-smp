@@ -235,29 +235,139 @@
             </a>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
             @foreach($alumni as $alumnus)
-            <div class="bg-gray-50 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-                <div class="h-72 overflow-hidden">
-                    <img src="{{ $alumnus->photo_url ?: asset('assets/logo smp.png') }}" alt="Foto {{ $alumnus->name }}" class="w-full h-full object-cover">
+            <button type="button"
+                class="home-alumni-card group relative block w-full overflow-hidden rounded-3xl bg-gray-200 text-left shadow-lg ring-1 ring-black/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
+                data-name="{{ $alumnus->name }}"
+                data-class="{{ $alumnus->class_level }}"
+                data-year="{{ $alumnus->graduation_year }}"
+                data-school="{{ $alumnus->current_school }}"
+                data-university="{{ $alumnus->current_university }}"
+                data-photo="{{ $alumnus->photo_url ?: asset('assets/logo smp.png') }}"
+                data-message="{{ $alumnus->message }}">
+                <div class="relative aspect-[3/4] w-full overflow-hidden">
+                    <img src="{{ $alumnus->photo_url ?: asset('assets/logo smp.png') }}" alt="Foto {{ $alumnus->name }}" loading="lazy" class="h-full w-full object-cover object-top transition duration-700 ease-out group-hover:scale-105">
+                    <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(15,23,70,.92) 0%, rgba(15,23,70,.55) 32%, rgba(15,23,70,0) 62%);"></div>
+                    @if($alumnus->graduation_year)
+                        <span class="absolute left-3 top-3 rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-blue-900 shadow">Angkatan {{ $alumnus->graduation_year }}</span>
+                    @endif
+                    <div class="absolute inset-x-0 bottom-0 p-4 text-white">
+                        <h3 class="text-base font-extrabold leading-snug sm:text-lg" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ $alumnus->name }}</h3>
+                        <div class="mt-1.5 flex items-center gap-1.5 text-xs text-blue-100 sm:text-sm">
+                            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                            <span class="truncate">{{ $alumnus->current_school }}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-8">
-                    <h3 class="text-2xl font-bold text-blue-900 mb-2">{{ $alumnus->name }}</h3>
-                    <p class="text-sm text-gray-500 uppercase tracking-widest mb-4">
-                        {{ $alumnus->class_level }}
-                        @if($alumnus->graduation_year)
-                            | Angkatan {{ $alumnus->graduation_year }}
-                        @endif
-                        | {{ $alumnus->current_university ?: $alumnus->current_school }}
-                    </p>
-                    <p class="text-gray-600 leading-relaxed mb-4">{{ Str::limit($alumnus->message, 140) }}</p>
-                    <p class="text-sm text-gray-500"><span class="font-semibold">Kesan:</span> {{ Str::limit($alumnus->message, 80) }}</p>
-                </div>
-            </div>
+            </button>
             @endforeach
         </div>
     </div>
 </section>
+
+{{-- Pop up detail alumni --}}
+<div id="home-alumni-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="home-alumni-name">
+    <div id="home-alumni-backdrop" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm"></div>
+    <div class="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl md:flex-row">
+        <button type="button" id="home-alumni-close" class="absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow-lg transition hover:bg-white hover:text-blue-900" aria-label="Tutup">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <div class="relative flex shrink-0 items-center justify-center overflow-hidden bg-blue-950 p-5 md:w-5/12 md:p-8">
+            <img id="home-alumni-photo-bg" src="" alt="" aria-hidden="true" class="absolute inset-0 h-full w-full scale-125 object-cover opacity-50 blur-2xl">
+            <img id="home-alumni-photo" src="" alt="" class="relative max-h-[38vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl ring-1 ring-white/20 md:max-h-[75vh]">
+        </div>
+        <div class="min-w-0 flex-1 overflow-y-auto p-6 md:p-8">
+            <div id="home-alumni-badges" class="mb-3 flex flex-wrap gap-2 pr-10"></div>
+            <h2 id="home-alumni-name" class="text-2xl font-extrabold leading-tight text-blue-900 md:text-3xl"></h2>
+            <div class="mt-3 h-1 w-14 rounded-full bg-yellow-400"></div>
+            <div class="mt-5 space-y-3">
+                <div id="home-alumni-school-wrap">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">Sekolah saat ini</p>
+                    <p id="home-alumni-school" class="font-semibold text-gray-800"></p>
+                </div>
+                <div id="home-alumni-university-wrap">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">Universitas saat ini</p>
+                    <p id="home-alumni-university" class="font-semibold text-gray-800"></p>
+                </div>
+            </div>
+            <div id="home-alumni-message-wrap" class="mt-6 rounded-2xl bg-blue-50 p-5">
+                <p class="mb-2 text-sm font-bold text-blue-900">Kesan &amp; pesan</p>
+                <p id="home-alumni-message" class="break-words whitespace-pre-line text-sm leading-relaxed text-gray-700"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var modal = document.getElementById('home-alumni-modal');
+        if (!modal) return;
+        var photo = document.getElementById('home-alumni-photo');
+        var photoBg = document.getElementById('home-alumni-photo-bg');
+        var nameEl = document.getElementById('home-alumni-name');
+        var badgesEl = document.getElementById('home-alumni-badges');
+        var schoolWrap = document.getElementById('home-alumni-school-wrap');
+        var schoolEl = document.getElementById('home-alumni-school');
+        var uniWrap = document.getElementById('home-alumni-university-wrap');
+        var uniEl = document.getElementById('home-alumni-university');
+        var msgWrap = document.getElementById('home-alumni-message-wrap');
+        var msgEl = document.getElementById('home-alumni-message');
+        var closeBtn = document.getElementById('home-alumni-close');
+        var lastFocus = null;
+
+        function addBadge(text, cls) {
+            var span = document.createElement('span');
+            span.className = 'rounded-full px-3 py-1 text-xs font-bold ' + cls;
+            span.textContent = text;
+            badgesEl.appendChild(span);
+        }
+
+        function openModal(card) {
+            var d = card.dataset;
+            lastFocus = card;
+            photo.src = d.photo;
+            photo.alt = 'Foto ' + d.name;
+            photoBg.src = d.photo;
+            nameEl.textContent = d.name;
+            badgesEl.innerHTML = '';
+            if (d.year) addBadge('Angkatan ' + d.year, 'bg-yellow-400 text-blue-900');
+            if (d['class']) addBadge('Kelas ' + d['class'], 'bg-blue-100 text-blue-900');
+            schoolEl.textContent = d.school || '';
+            schoolWrap.classList.toggle('hidden', !d.school);
+            uniEl.textContent = d.university || '';
+            uniWrap.classList.toggle('hidden', !d.university);
+            if (d.message) {
+                msgEl.textContent = d.message;
+                msgWrap.classList.remove('hidden');
+            } else {
+                msgWrap.classList.add('hidden');
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            closeBtn.focus();
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+            photo.src = '';
+            photoBg.src = '';
+            if (lastFocus) lastFocus.focus();
+        }
+
+        document.querySelectorAll('.home-alumni-card').forEach(function (card) {
+            card.addEventListener('click', function () { openModal(card); });
+        });
+        closeBtn.addEventListener('click', closeModal);
+        document.getElementById('home-alumni-backdrop').addEventListener('click', closeModal);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        });
+    })();
+</script>
 @endif
 
 <!-- Keunggulan Section -->
