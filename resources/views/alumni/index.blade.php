@@ -21,9 +21,9 @@
                 @if($alumni->count())
                     <div class="grid gap-6 sm:grid-cols-2">
                         @foreach($alumni as $item)
-                            <div class="rounded-3xl overflow-hidden border border-gray-200 shadow-sm bg-white">
+                            <div class="flex h-full flex-col rounded-3xl overflow-hidden border border-gray-200 shadow-sm bg-white">
                                 <img src="{{ $item->photo_url ?: asset('assets/logo smp.png') }}" alt="Foto {{ $item->name }}" class="h-60 w-full object-cover">
-                                <div class="p-6">
+                                <div class="flex-1 p-6">
                                     <h2 class="text-xl font-bold text-blue-900">{{ $item->name }}</h2>
                                     <p class="text-gray-500 mb-2">
                                         {{ $item->class_level }}
@@ -37,7 +37,7 @@
                                     @else
                                         <div class="mb-4"></div>
                                     @endif
-                                    <p class="text-gray-600 text-sm">{{ Str::limit($item->message, 120) }}</p>
+                                    <p class="break-words whitespace-pre-line text-gray-600 text-sm">{{ $item->message }}</p>
                                 </div>
                             </div>
                         @endforeach
