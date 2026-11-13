@@ -22,7 +22,7 @@
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         @foreach($alumni as $item)
                             <button type="button"
-                                class="alumni-card h-32 w-full text-left rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-blue-300 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                class="alumni-card flex h-full w-full flex-col overflow-hidden text-left rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-blue-300 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 data-name="{{ $item->name }}"
                                 data-class="{{ $item->class_level }}"
                                 data-year="{{ $item->graduation_year }}"
@@ -30,6 +30,8 @@
                                 data-university="{{ $item->current_university }}"
                                 data-photo="{{ $item->photo_url ?: asset('assets/logo smp.png') }}"
                                 data-message="{{ $item->message }}">
+                                <img src="{{ $item->photo_url ?: asset('assets/logo smp.png') }}" alt="Foto {{ $item->name }}" loading="lazy" class="aspect-[3/4] w-full bg-gray-100 object-cover object-top">
+                                <div class="min-w-0 p-4">
                                 <h2 class="text-lg font-bold text-blue-900 truncate">{{ $item->name }}</h2>
                                 <p class="text-sm text-gray-500 mt-1 truncate">
                                     @if($item->graduation_year)
@@ -39,6 +41,7 @@
                                     @endif
                                 </p>
                                 <p class="text-sm text-gray-700 mt-2 truncate">Sekolah saat ini: {{ $item->current_school }}</p>
+                                </div>
                             </button>
                         @endforeach
                     </div>
